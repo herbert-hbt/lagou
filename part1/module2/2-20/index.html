@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">add</button>
+    <button id="btn1">clear</button>
+    <script>
+      let arr = [];
+      function test() {
+        for (let i = 0; i < 100000; i++) {
+          document.body.appendChild(document.createElement("p"));
+        }
+        arr.push(new Array(1000000).join("x"));
+      }
+      function test1() {
+        console.log(arr.length);
+        arr = [];
+        document.getElementById("btn1").style.backgroundColor = "red";
+      }
+      document.getElementById("btn").addEventListener("click", test);
+      document.getElementById("btn1").addEventListener("click", test1);
+    </script>
+  </body>
+</html>

@@ -16,7 +16,7 @@ const style = () => {
   //  base: "src" 指定打包之后目录结构也会有
   return src("src/assets/styles/*.scss", { base: "src" })
     .pipe(plugins.sass({ outputStyle: "expanded" })) //默认不会处理下划线开头的文件
-    .pipe(dest("dist"));
+    .pipe(dest("temp"));
 };
 
 /**
@@ -31,7 +31,7 @@ const style = () => {
 const script = () => {
   return src("src/assets/scripts/*.js", { base: "src" })
     .pipe(plugins.babel({ presets: ["@babel/preset-env"] })) //若果babel()中不穿presets，就会几乎不会有转换，bebal只是一个平台，需要各种插件来实现功能
-    .pipe(dest("dist")); //presets是指一些插件的集合
+    .pipe(dest("temp")); //presets是指一些插件的集合
 };
 
 /**
@@ -88,7 +88,7 @@ const page = () => {
   console.log("here 执行了，，，，");
   return src("src/*.html", { base: "src" }) //可以使用"src/**/*.html",来通配所有的HTML文件
     .pipe(plugins.swig({ data, defaults: { cache: false } })) //此处需要设置cache，否则不会及时更新
-    .pipe(dest("dist"));
+    .pipe(dest("temp"));
 };
 
 /**
@@ -121,7 +121,6 @@ const font = () => {
     .pipe(dest("dist"));
 };
 
-const complile = parallel(style, script, page, image, font);
 /**
  *
  *
@@ -145,7 +144,7 @@ const extra = () => {
  *
  **/
 const clean = () => {
-  return del(["dist"]); //返回一个promise
+  return del(["dist", "temp"]); //返回一个promise
 };
 
 /**
@@ -158,6 +157,7 @@ const clean = () => {
  *
  **/
 const browserSync = require("browser-sync");
+const { use } = require("browser-sync");
 const bs = browserSync.create();
 const serve = () => {
   //此处是监测文件变化之后，重新执行编译任务，编译过后导致dist文件发生变化，引发浏览器重载
@@ -177,7 +177,7 @@ const serve = () => {
     open: false, //是否自动打开浏览器
     files: "dist/**", //指定监听的文件，只是dist下文件修改后，重新加载，也可以在编译的过程中，使用提供的reload api
     server: {
-      baseDir: ["dist", "src", "public"], //会依次查找数组中对应文件夹的资源
+      baseDir: ["temp", "src", "public"], //会依次查找数组中对应文件夹的资源
       routes: {
         //遇到路径/node_modules，先去加载node_modules，一旦有请求，优于dist响应
         "/node_modules": "node_modules",
@@ -197,19 +197,38 @@ const serve = () => {
  **/
 
 const useref = () => {
-  return src("dist/*.html", { base: "dist" })
-    .pipe(plugins.useref({ searchPath: ["dist", "."] }))
-    .pipe(dest("dist"));
+  return (
+    src("temp/*.html", { base: "temp" })
+      .pipe(plugins.useref({ searchPath: ["temp", "."] }))
+      //此处有html js css三种文件
+      .pipe(plugins.if(/\.js$/, plugins.uglify()))
+      .pipe(plugins.if(/\.css$/, plugins.cleanCss()))
+      .pipe(
+        plugins.if(
+          /\.html$/,
+          plugins.htmlmin({
+            collapseWhitespace: true, //如果不配collapseWhitespace，只会压缩空白字符
+            minifyCSS: true, //会压缩内联的css
+            minifyJS: true, //会压缩script标签内的js
+          })
+        )
+      )
+      // .pipe(dest("release")) //如果还放置到dist中去，就可能发生输入输出流之间的冲突
+      .pipe(dest("dist")) //优化后
+  );
 };
 
-const build = series(clean, parallel(complile, extra));
+const complile = parallel(style, script, page);
 
-const dev = series(style, script, page, serve);
+const build = series(
+  clean,
+  parallel(series(complile, useref), image, font, extra)
+);
+
+const dev = series(complile, serve);
 
 module.exports = {
-  complile,
+  clean,
   build,
-  serve,
   dev,
-  page,
 };

@@ -1,0 +1,35 @@
+Arguments: 
+  /usr/local/Cellar/node/13.11.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add inquirer
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  13.11.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/inquirer: ETIMEDOUT
+      at Timeout._onTimeout (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141408:19)
+      at listOnTimeout (internal/timers.js:549:17)
+      at processTimers (internal/timers.js:492:7)
+
+npm manifest: 
+  {
+    "name": "2-15",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "bin": "cli.js"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

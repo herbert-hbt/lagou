@@ -1,0 +1,15 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "hbtpages build"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "test-array-map-hbt": "^1.0.0"
+  }
+}
