@@ -1,0 +1,28 @@
+# 目录结构
+- dist文件夹：打包后结果
+- es文件夹：打包后结果
+- examples：官方给的示例
+    - svg：svg相关
+    - carousel-svg：svg相关
+    - hero：自定义模块相关演示
+    - recorder-animation：列表和动画相关
+        - build.js：编译后结果
+        - index.html：页面
+        - script.js：案例源码
+- src源码
+    - helpers
+        - attachto.ts：定义类型，在vnode中使用
+    - modules：官方模块
+        - 设置属性、样式等
+        - modules.ts：定义模块中要使用的钩子函数
+        - hero.ts：自定义模块
+    - h.ts：定义h函数，用于创建vnode
+    - hooks.ts：钩子函数相关
+    - htmldomapi.ts：封装的一些dom操作
+    - is.ts：工具函数，判断是否是数组，是否是字符串或者数字
+    - snabbdom.bundle.ts：snabbdom的入口文件
+        - 导入了五个模块（data-*未导入）
+    - snabbdom.ts：导出init、patch、thunk等函数
+    - thunk.ts：优化相关
+    - toVnode.ts：将dom转为vnode
+    - vnode.ts：定义vnode的数据结构
