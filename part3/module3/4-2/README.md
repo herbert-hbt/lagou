@@ -1,0 +1,58 @@
+# 步骤
+
+* 项目初始化
+    - 创建项目
+        - 新建realworld-nuxtjs文件夹并进入
+        - 初始化项目 npm init -y
+        - 安装nuxt npm i nuxt
+        - 配置package.json中的启动脚本
+        - 创建pages文件夹
+        - 在pages文件夹下，创建index.vue
+        - 启动项目
+    - 导入样式资源
+        - 导入样式
+            - 创建app.html文件
+            - 找打nuxtjs文档，粘贴固定模板
+            - 找到realworld中的css资源，
+                - ionicons：找到对应的cdn资源，复制粘贴
+                - googleapis：直接使用
+                - productionready：复制粘贴到本地，新建static文件夹
+    - 布局组件
+        - pages下新建layout/index.vue文件
+        - 创建基本结构后，复制realworld中header的nav标签部分和footer，并在中间添加<nuxt-child>标签
+        - 自定义路由规则
+            - 创建nuxt.config.js文件
+            - 在router的extendRoutes中，清空默认生成的路由，将/指向layout
+        - 创建home页面，并在nuxt.config.js添加路由规则，为layout的子路由
+    - 导入登录注册页面
+        - 创建login/index.vue
+        - 复制并配置路由（共用一个文件）
+        - 在login/index.vue中处理登录和注册不同页面的信息
+    - 导入剩余页面
+        - 创建profile并配置路由
+        - 创建settings并配置路由
+        - 创建editor并配置路由
+        - 创建article并配置路由
+    - 处理顶部导航栏链接
+        - layout/index.vue中，将a链接改为nuxt-link
+    - 处理导航链接高亮
+        - 在nuxt.config.js中的router中配置linkActiveClass
+        - 在nuxt-link home中添加exact
+    - 封装请求模块
+        - 创建utils/request.js
+        - 配置axios
+* 登录注册
+    - 实现基本登录功能
+        - 绑定数据模型
+        - 处理提交事件
+    - 封装请求方法
+        - 将请求放置api对应模块
+    - 表单验证
+        - 添加require属性
+        - type设置为emai和password
+    - 错误处理
+        - 将提交错误放置到头部显示
+# 信息
+- 用户名 herbert
+- 密码 herbert_hbt
+- email herbert_hbt@126.com

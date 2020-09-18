@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Vue.extend调试</title>
+    <script src="../../dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        var o = {
+            name: "ooo",
+            template: "<div>options-{{a?a:'000'}}</div>",
+            props: {
+                ff: String,
+            },
+        };
+
+        var b = Vue.component("bb", {
+            template: "<div>bb</div>",
+            props: {
+                gg: String,
+            },
+            data() {
+                return {
+                    a: "bb",
+                };
+            },
+        });
+
+        var c = Vue.component("cc", {
+            template: "<div>cc</div>",
+            props: {
+                gg: String,
+            },
+            data() {
+                return {
+                    a: "cc",
+                };
+            },
+        });
+
+        var d = Vue.extend(o);
+        var e = c.extend(o);
+
+        new Vue({
+            el: "#app",
+            data: {
+                rrr: 8,
+            },
+            props: {
+                eeee: 0,
+            },
+            render(h) {
+                return h("div", [h(d), h(o), h(e)]);
+            },
+        });
+    </script>
+</body>
+
+</html>
