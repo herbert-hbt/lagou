@@ -37,5 +37,10 @@ module.exports = {
                 }]
             }]);
         }
+    },
+    plugins: ["~/plugins/request.js", "~/plugins/dayjs.js"],
+    server: {
+        port: "3000",
+        host: "0.0.0.0"
     }
 }
